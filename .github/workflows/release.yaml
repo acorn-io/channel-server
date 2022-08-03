@@ -1,0 +1,23 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  push:
+    runs-on: ubuntu
+    steps:
+      - uses: actions/checkout@v3
+      - uses: acorn-io/actions-setup@v1
+      - uses: acorn-io/actions-login@v1
+        with:
+          registry: ghcr.io
+          username: token
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set tag
+        run: echo "TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Build and push acorn
+        run: |
+          acorn build --push --platform linux/amd64 --platform linux/arm64 -t ghcr.io/acorn-io/channel-server:$TAG .
