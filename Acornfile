@@ -1,0 +1,8 @@
+containers: default: {
+    env: {
+      URL: "https://raw.githubusercontent.com/acorn-io/acorn/main/channels.yaml"
+      SUBKEY: "acorn"
+    }
+    ports: publish: "80:8080/http"
+    build: "."
+}
